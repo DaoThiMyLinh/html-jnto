@@ -66,6 +66,57 @@
   --p6-paper-mobile: url('../img/img-mobile/page 6/section 2/box-text.webp');
   --p6-sec3-bg-desktop: url('../img/img-desktop/page 6/section 3/bg-xanh.webp');
   --p6-sec3-bg-mobile: url('../img/img-mobile/page 6/section 3/bg-xanh.webp');
+
+
+  --cursor-desktop: url('../img/img-desktop/mouse.webp') 2 0, url('../img/img-desktop/mouse.png') 2 0;
+}
+
+
+@media (min-width: 769px) {
+
+  html,
+  body {
+    cursor: var(--cursor-desktop), auto;
+  }
+
+  a,
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  label,
+  select,
+  summary,
+  .btn,
+  .hero-cta-btn,
+  .prize-card,
+  .tab-btn,
+  .option-card,
+  .quiz-region-card,
+  .btn-primary,
+  .btn-secondary,
+  .banner-cta-link,
+  .campaign-logo-link,
+  .jed-logo-link,
+  .jnto-logo-link,
+  .auth-tab,
+  .modal-close,
+  .btn-dang-ky,
+  .btn-dang-nhap,
+  [style*="cursor: pointer"],
+  [style*="cursor:pointer"] {
+    cursor: var(--cursor-desktop), pointer !important;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  textarea {
+    cursor: text !important;
+  }
 }
 
 * {
