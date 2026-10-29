@@ -34,42 +34,68 @@ document.addEventListener('DOMContentLoaded', () => {
     page6: document.getElementById('view-page6')
   };
 
-  function showView(viewName, updateHash = true) {
-    if (!views[viewName]) {
-      viewName = 'homepage';
-    }
+  function getTargetUrl(viewName) {
+    const isAtRoot = !!document.getElementById('view-homepage');
+    const pageBase = isAtRoot ? 'pages/' : '';
+    const homePath = isAtRoot ? 'index.html' : '../index.html';
 
-    Object.keys(views).forEach((key) => {
-      const viewEl = views[key];
-      if (viewEl) {
-        if (key === viewName) {
-          viewEl.classList.add('active');
-        } else {
-          viewEl.classList.remove('active');
+    const viewPageMap = {
+      homepage: homePath,
+      register: pageBase + 'page-2.html#dang-ky',
+      login: pageBase + 'page-2.html#dang-nhap',
+      page3: pageBase + 'page-3.html',
+      page3_2a: pageBase + 'page-3.html#page-3-2a',
+      page3_2b: pageBase + 'page-3.html#page-3-2b',
+      page4: pageBase + 'page-4.html',
+      page5: pageBase + 'page-5.html',
+      page6: pageBase + 'page-6.html'
+    };
+
+    return viewPageMap[viewName];
+  }
+
+  function showView(viewName, updateHash = true) {
+    const targetEl = views[viewName];
+    if (targetEl) {
+      Object.keys(views).forEach((key) => {
+        const viewEl = views[key];
+        if (viewEl) {
+          if (key === viewName) {
+            viewEl.classList.add('active');
+          } else {
+            viewEl.classList.remove('active');
+          }
+        }
+      });
+
+      if (updateHash) {
+        const hashMap = {
+          homepage: '#homepage',
+          register: '#dang-ky',
+          login: '#dang-nhap',
+          page3: '#page-3',
+          page3_2a: '#page-3-2a',
+          page3_2b: '#page-3-2b',
+          page4: '#page-4',
+          page5: '#page-5',
+          page6: '#page-6'
+        };
+        if (hashMap[viewName] && window.location.hash !== hashMap[viewName]) {
+          window.history.pushState(null, '', hashMap[viewName]);
         }
       }
-    });
 
-    if (updateHash) {
-      const hashMap = {
-        homepage: '#homepage',
-        register: '#dang-ky',
-        login: '#dang-nhap',
-        page3: '#page-3',
-        page3_2a: '#page-3-2a',
-        page3_2b: '#page-3-2b',
-        page4: '#page-4',
-        page5: '#page-5',
-        page6: '#page-6'
-      };
-      if (window.location.hash !== hashMap[viewName]) {
-        window.history.pushState(null, '', hashMap[viewName]);
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      updateScale();
+      return;
     }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    updateScale();
+    const targetUrl = getTargetUrl(viewName);
+    if (targetUrl) {
+      window.location.href = targetUrl;
+    }
   }
+  window.showView = showView;
 
   function handleHashRoute() {
     const hash = window.location.hash.toLowerCase();
@@ -89,8 +115,22 @@ document.addEventListener('DOMContentLoaded', () => {
       showView('page5', false);
     } else if (hash === '#page-6' || hash === '#page6' || hash === '#nop-bai-thanh-cong' || hash === '#thanh-cong') {
       showView('page6', false);
-    } else {
+    } else if (hash === '#homepage') {
       showView('homepage', false);
+    } else {
+      if (views.homepage) {
+        showView('homepage', false);
+      } else if (views.register) {
+        showView('register', false);
+      } else if (views.page3) {
+        showView('page3', false);
+      } else if (views.page4) {
+        showView('page4', false);
+      } else if (views.page5) {
+        showView('page5', false);
+      } else if (views.page6) {
+        showView('page6', false);
+      }
     }
   }
 
@@ -163,8 +203,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastMessage = document.getElementById('toast-message');
   let toastTimer = null;
 
+  if (authToast && authToast.parentElement !== document.body) {
+    document.body.appendChild(authToast);
+  }
+
   function showToast(message) {
     if (!authToast || !toastMessage) return;
+    if (authToast.parentElement !== document.body) {
+      document.body.appendChild(authToast);
+    }
     toastMessage.textContent = message;
     authToast.classList.remove('hidden');
 
@@ -199,20 +246,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const iconWrap = row.querySelector('.' + iconContainerClass);
       if (!iconWrap) return;
 
+      const imgPrefix = document.getElementById('view-homepage') ? '' : '../';
       if (checkbox.checked) {
         row.setAttribute('aria-checked', 'true');
         iconWrap.innerHTML = `
           <picture>
-            <source media="(max-width: 768px)" srcset="img/img-mobile/page%202/Page2.1%20-%20%C4%91%C4%83ng%20k%C3%BD/icon-mark.webp">
-            <img src="img/img-desktop/page 2/Page2.1 - Đăng ký/icon-mark.webp" alt="✓" class="checkbox-img">
+            <source media="(max-width: 768px)" srcset="${imgPrefix}img/img-mobile/page%202/Page2.1%20-%20%C4%91%C4%83ng%20k%C3%BD/icon-mark.webp">
+            <img src="${imgPrefix}img/img-desktop/page 2/Page2.1 - Đăng ký/icon-mark.webp" alt="✓" class="checkbox-img">
           </picture>
         `;
       } else {
         row.setAttribute('aria-checked', 'false');
         iconWrap.innerHTML = `
           <picture>
-            <source media="(max-width: 768px)" srcset="img/img-mobile/page%202/Page2.1%20-%20%C4%91%C4%83ng%20k%C3%BD/icon-checkpoint.webp">
-            <img src="img/img-desktop/page 2/Page2.1 - Đăng ký/icon-checkpoint.webp" alt="" class="checkbox-img">
+            <source media="(max-width: 768px)" srcset="${imgPrefix}img/img-mobile/page%202/Page2.1%20-%20%C4%91%C4%83ng%20k%C3%BD/icon-checkpoint.webp">
+            <img src="${imgPrefix}img/img-desktop/page 2/Page2.1 - Đăng ký/icon-checkpoint.webp" alt="" class="checkbox-img">
           </picture>
         `;
       }
@@ -297,24 +345,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = (registerPasswordInput ? registerPasswordInput.value.trim() : '');
 
     if (!username) {
-      alert('Vui lòng nhập Tên đăng nhập.');
+      showToast('Vui lòng nhập Tên đăng nhập.');
       if (registerUsernameInput) registerUsernameInput.focus();
       return;
     }
 
     if (!password) {
-      alert('Vui lòng nhập Mật khẩu.');
+      showToast('Vui lòng nhập Mật khẩu.');
       if (registerPasswordInput) registerPasswordInput.focus();
       return;
     }
 
     if (!checkTerms1 || !checkTerms1.checked) {
-      alert('Vui lòng đọc và đồng ý với Điều kiện & Điều khoản để tiếp tục.');
+      showToast('Vui lòng đọc và đồng ý với Điều kiện & Điều khoản để tiếp tục.');
       return;
     }
 
     if (!checkTerms2 || !checkTerms2.checked) {
-      alert('Vui lòng đồng ý cho Ban tổ chức sử dụng thông tin để liên hệ và trao giải.');
+      showToast('Vui lòng đồng ý cho Ban tổ chức sử dụng thông tin để liên hệ và trao giải.');
       return;
     }
 
@@ -381,13 +429,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = (loginPasswordInput ? loginPasswordInput.value.trim() : '');
 
     if (!username) {
-      alert('Vui lòng nhập Tên đăng nhập.');
+      showToast('Vui lòng nhập Tên đăng nhập.');
       if (loginUsernameInput) loginUsernameInput.focus();
       return;
     }
 
     if (!password) {
-      alert('Vui lòng nhập Mật khẩu.');
+      showToast('Vui lòng nhập Mật khẩu.');
       if (loginPasswordInput) loginPasswordInput.focus();
       return;
     }
@@ -829,34 +877,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnFbToHome = document.getElementById('btn-fb-to-home');
 
   function handleFbSubmission(e) {
-    if (e) e.preventDefault();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const link = (inputFbLink?.value || '').trim();
-    if (!link) {
-      showToast('Vui lòng nhập đường dẫn (link) bài đăng Facebook của bạn.');
-      inputFbLink?.focus();
-      return;
-    }
-
-    const isUrl = /^https?:\/\//i.test(link) || /facebook\.com|fb\.watch|fb\.me/i.test(link);
-    if (!isUrl) {
-      showToast('Vui lòng nhập link bài viết hợp lệ (bắt đầu bằng https://...)');
-      inputFbLink?.focus();
-      return;
-    }
-
-    try {
-      const fbData = {
-        postUrl: link,
-        submittedAt: new Date().toISOString()
-      };
-      localStorage.setItem('jnto_facebook_submission', JSON.stringify(fbData));
-    } catch (err) {
-      console.error(err);
+    if (link) {
+      try {
+        const fbData = {
+          postUrl: link,
+          submittedAt: new Date().toISOString()
+        };
+        localStorage.setItem('jnto_facebook_submission', JSON.stringify(fbData));
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     showToast('🎉 Nộp bài dự thi Facebook thành công!');
     showView('page6');
   }
+  window.handleFbSubmission = handleFbSubmission;
 
   if (btnFbSubmit) {
     btnFbSubmit.addEventListener('click', handleFbSubmission);

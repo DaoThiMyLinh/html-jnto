@@ -2857,7 +2857,7 @@ img {
   align-items: center;
   gap: 10px;
   font-family: var(--font-main);
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
   z-index: 1000;
   animation: toastPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
