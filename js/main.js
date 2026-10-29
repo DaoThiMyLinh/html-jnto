@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     page3_2a: document.getElementById('view-page3-2a'),
     page3_2b: document.getElementById('view-page3-2b'),
     page4: document.getElementById('view-page4'),
-    page5: document.getElementById('view-page5')
+    page5: document.getElementById('view-page5'),
+    page6: document.getElementById('view-page6')
   };
 
   function showView(viewName, updateHash = true) {
@@ -58,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
         page3_2a: '#page-3-2a',
         page3_2b: '#page-3-2b',
         page4: '#page-4',
-        page5: '#page-5'
+        page5: '#page-5',
+        page6: '#page-6'
       };
       if (window.location.hash !== hashMap[viewName]) {
         window.history.pushState(null, '', hashMap[viewName]);
@@ -85,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showView('page4', false);
     } else if (hash === '#page-5' || hash === '#page5' || hash === '#bai-dang-facebook' || hash === '#facebook') {
       showView('page5', false);
+    } else if (hash === '#page-6' || hash === '#page6' || hash === '#nop-bai-thanh-cong' || hash === '#thanh-cong') {
+      showView('page6', false);
     } else {
       showView('homepage', false);
     }
@@ -851,7 +855,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     showToast('🎉 Nộp bài dự thi Facebook thành công!');
-    openModal('modal-fb-success');
+    showView('page6');
   }
 
   if (btnFbSubmit) {
@@ -865,6 +869,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnFbToHome) {
     btnFbToHome.addEventListener('click', () => {
       closeModal('modal-fb-success');
+      showView('homepage');
+    });
+  }
+
+  const btnP6Home = document.getElementById('btn-p6-home');
+  if (btnP6Home) {
+    btnP6Home.addEventListener('click', () => {
       showView('homepage');
     });
   }
