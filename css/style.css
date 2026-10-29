@@ -4748,14 +4748,6 @@ img {
     height: auto;
   }
 
-  .card-chugoku .quiz-region-img,
-  .quiz-img-chugoku {
-  }
-
-  .card-hokkaido .quiz-region-img,
-  .quiz-img-hokkaido {
-  }
-
   .quiz-main-section {
     min-height: auto;
     padding: 45px 12px 60px;
@@ -5140,10 +5132,6 @@ img {
     font-size: 15px;
     letter-spacing: 1.2px;
   }
-
-  /* ==========================================================================
-     PAGE 6 - RESULT & RECOMMENDATIONS (MOBILE)
-     ========================================================================== */
 
   .p6-result-section {
     min-height: auto;
@@ -5624,6 +5612,7 @@ img {
 }
 
 @media (max-width: 575px) {
+
   .quiz-search-wrapper,
   .fb-search-wrapper {
     position: absolute;
@@ -5648,9 +5637,11 @@ img {
     justify-content: center;
   }
 
-  .quiz-search-wrapper, .fb-search-wrapper {
+  .quiz-search-wrapper,
+  .fb-search-wrapper {
     top: 40px;
   }
+
   .quiz-search-icon-line,
   .fb-search-icon-line {
     width: clamp(130px, 45vw, 220px);
@@ -5959,10 +5950,13 @@ img {
 }
 
 @media (max-width: 360px) {
-  .quiz-search-instruction, .fb-search-instruction {
+
+  .quiz-search-instruction,
+  .fb-search-instruction {
     font-size: 6px;
     font-weight: 400;
   }
+
   .fb-paper-card {
     width: 96%;
     max-width: 310px;
@@ -6006,9 +6000,12 @@ img {
     width: clamp(75px, 26vw, 95px);
     height: clamp(26px, 9vw, 34px);
   }
-    .quiz-search-wrapper, .fb-search-wrapper {
-      top: 30px;
-    }
+
+  .quiz-search-wrapper,
+  .fb-search-wrapper {
+    top: 30px;
+  }
+
   .fb-question-badge .fb-tag-text {
     font-size: clamp(10px, 3.5vw, 13px);
   }
@@ -6112,6 +6109,7 @@ img {
     font-size: clamp(11px, 3.8vw, 14px);
     letter-spacing: 0.8px;
   }
+
   .register-card-frame,
   .login-card-frame {
     width: 96%;
